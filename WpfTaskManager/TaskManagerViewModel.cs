@@ -34,13 +34,14 @@ namespace WpfTaskManager
         public string StartProcess { get => startProcess; set => Set(ref startProcess, value); }
 
         private Timer tm;
+        private string RemoteIP { get; set; } = "192.168.5.65";
 
         public TaskManagerViewModel()
         {
             
             ProcessCollection = new ObservableCollection<ProcessItem>();
 
-            foreach (var item in Process.GetProcesses("192.168.5.65"))
+            foreach (var item in Process.GetProcesses(RemoteIP))
             {
                 try
                 {
@@ -63,7 +64,7 @@ namespace WpfTaskManager
         {
             var newColl = new ObservableCollection<ProcessItem>();
 
-            foreach (var item in Process.GetProcesses("192.168.5.65"))
+            foreach (var item in Process.GetProcesses(RemoteIP))
             {
                 try
                 {
@@ -103,7 +104,7 @@ namespace WpfTaskManager
                         {
 
                             ConnectionOptions theConnection = new ConnectionOptions();
-                            ManagementScope manScope = new ManagementScope("\\\\" + "192.168.5.65" + "\\root\\cimv2", theConnection);
+                            ManagementScope manScope = new ManagementScope("\\\\" + RemoteIP + "\\root\\cimv2", theConnection);
                             manScope.Connect();
                             ObjectGetOptions objectGetOptions = new ObjectGetOptions();
                             ManagementPath managementPath = new ManagementPath("Win32_Process");
@@ -113,11 +114,11 @@ namespace WpfTaskManager
                             ManagementBaseObject outParams = processClass.InvokeMethod("Create", inParams, null);
 
 
-                            var par2 = outParams["processId"].ToString();
-                            int prId = int.Parse(par2);
+                            //var par2 = outParams["processId"].ToString();
+                            //int prId = int.Parse(par2);
 
-                            var proc = Process.GetProcessById(prId, "192.168.5.65");
-                            proc.StartInfo.UseShellExecute = false;
+                            //var proc = Process.GetProcessById(prId, RemoteIP);
+                            //proc.StartInfo.UseShellExecute = false;
 
                             //var hwd = proc.MainWindowHandle;
                             //SetForegroundWindow(hwd.ToInt32());
@@ -150,7 +151,7 @@ namespace WpfTaskManager
                         MessageBox.Show("Select any process");
                     else
                     {
-                        Process p = Process.GetProcessById(SelItem.Pid, "192.168.5.65");
+                        Process p = Process.GetProcessById(SelItem.Pid, RemoteIP);
                         new Process
                         {
                             StartInfo = new ProcessStartInfo
