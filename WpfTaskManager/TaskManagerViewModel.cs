@@ -102,6 +102,7 @@ namespace WpfTaskManager
                     {
                         try
                         {
+                            //InitiateProcessOnRemoteMachine();
 
                             ConnectionOptions theConnection = new ConnectionOptions();
                             ManagementScope manScope = new ManagementScope("\\\\" + RemoteIP + "\\root\\cimv2", theConnection);
@@ -110,7 +111,7 @@ namespace WpfTaskManager
                             ManagementPath managementPath = new ManagementPath("Win32_Process");
                             ManagementClass processClass = new ManagementClass(manScope, managementPath, objectGetOptions);
                             ManagementBaseObject inParams = processClass.GetMethodParameters("Create");
-                            inParams["CommandLine"] = StartProcess; //"notepad";
+                            inParams["CommandLine"] = StartProcess;
                             ManagementBaseObject outParams = processClass.InvokeMethod("Create", inParams, null);
 
 
@@ -168,7 +169,62 @@ namespace WpfTaskManager
             ));
         }
 
-       
+        //private static void InitiateProcessOnRemoteMachine() //string _remoteMachineName, string executableFileCompletePath, string ParamForExeFile)
+        //{
+
+        //    string psexec = @"c:\psexec\psexec.exe"; //Path to psexec
+        //                                             //If we need to pass some parameter then we need to pass it with the exe enclose in double coutes else can just use path to executable
+        //    string command = "notepad.exe";//executableFileCompletePath + " \"" + ParamForExeFile + "\"";
+        //    string node = @"\\" + "192.168.5.65"; //_remoteMachineName;
+        //    // string arguments = "-i " + node + " -u " + "UserName" + " -p " + "password" + " " + command; //parameters
+        //    string arguments = "-i " + node + " " + command;
+        //    //Console.WriteLine(arguments); //The arguments ready for psexec
+
+        //    Process Psexec = new Process();
+        //    Psexec.StartInfo.FileName = psexec;
+        //    Psexec.StartInfo.Arguments = "-accepteula";
+        //    Psexec.Start();
+        //    Thread.Sleep(3000);
+
+        //    Process GenTCM = new Process();
+        //    GenTCM.StartInfo.FileName = psexec;
+        //    GenTCM.StartInfo.Arguments = arguments;
+        //    GenTCM.StartInfo.UseShellExecute = false;
+        //    GenTCM.StartInfo.RedirectStandardError = true;
+        //    GenTCM.Start();
+        //    int intTimeOut = 100;
+        //    int Flag = 0;
+        //    while (GenTCM.HasExited == false)
+        //    {
+        //        Thread.Sleep(1000);
+        //        Flag = Flag + 1;
+        //        if (intTimeOut == Flag)
+        //        {
+        //            Process[] psexecProcess = Process.GetProcessesByName("psexec");
+        //            foreach (Process p in psexecProcess)
+        //            { p.Kill(); }
+        //            break;
+        //        }
+        //    }
+        //    string actualOutput = "";
+        //    string errorOutput = GenTCM.StandardError.ReadToEnd();
+        //    if (errorOutput.Contains("error code") && !errorOutput.Contains("error code 0"))
+        //    {
+        //        string[] output = errorOutput.Split(new[] { '\n' });
+        //        errorOutput = output[5];
+        //        // Console.WriteLine("[ERROR] " + errorOutput + "\r\n");
+        //        MessageBox.Show("[ERROR] " + errorOutput);
+        //    }
+        //    else
+        //    {
+        //        string[] output = errorOutput.Split(new[] { '\n' });
+        //        actualOutput = output[5];
+        //        actualOutput = actualOutput.Replace("\r", "");
+        //        //  Console.WriteLine("[SUCCESS] TCM Command is launched.\r\n" + actualOutput);
+        //        MessageBox.Show("[SUCCESS] TCM Command is launched. " + actualOutput);
+        //    }
+
+        }
 
     }
 }
