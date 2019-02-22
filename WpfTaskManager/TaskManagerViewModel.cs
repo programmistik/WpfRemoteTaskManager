@@ -21,8 +21,8 @@ namespace WpfTaskManager
 {
     public class TaskManagerViewModel : ViewModelBase
     {
-        [DllImport("User32.dll")]
-        public static extern Int32 SetForegroundWindow(int hWnd);
+        //[DllImport("User32.dll")]
+        //public static extern Int32 SetForegroundWindow(int hWnd);
 
         private ObservableCollection<ProcessItem> processCollection;
         public ObservableCollection<ProcessItem> ProcessCollection { get => processCollection; set => Set(ref processCollection, value); }
@@ -224,7 +224,7 @@ namespace WpfTaskManager
         //        MessageBox.Show("[SUCCESS] TCM Command is launched. " + actualOutput);
         //    }
 
-        }
+        //}
 
     }
 }
